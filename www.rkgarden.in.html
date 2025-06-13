@@ -1,0 +1,1246 @@
+<!DOCTYPE html>
+<html lang="mr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>आर. के. गार्डन अँड डेव्हलपर्स</title>
+<style>
+    body {
+        margin: 0;
+        font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+        /* बॅकग्राउंड इमेज आणि ओव्हरले */
+        background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('https://assets.onecompiler.app/43jvtc4uw/43kcmfmvd/1000032418.jpg') no-repeat center center fixed;
+        background-size: cover;
+        color: #fff;
+    }
+    header {
+        background: linear-gradient(to right, rgba(0, 70, 0, 0.9), rgba(0, 50, 0, 0.9));
+        padding: 10px 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        position: relative; /* Dropdown साठी पोझिशनिंग */
+    }
+    .logo-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .logo-container img {
+        width: 100px; /* लोगोची रुंदी वाढवली */
+        height: auto;
+        max-width: 150px; /* कमाल रुंदी वाढवली */
+    }
+    .logo-container h1 {
+        font-size: 28px; /* फॉन्ट आकार वाढवला */
+        margin: 0;
+        font-weight: bold;
+        color: #fff;
+        text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.6);
+    }
+    nav {
+        margin-top: 10px;
+        background: linear-gradient(to right, rgba(0, 50, 0, 0.9), rgba(0, 30, 0, 0.9));
+        padding: 8px 20px;
+        display: flex;
+        justify-content: center;
+        gap: 20px;
+        flex-wrap: wrap;
+        border-radius: 8px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+    nav a {
+        color: #c0ffc0;
+        text-decoration: none;
+        font-weight: 600;
+        padding: 10px 15px;
+        border: 2px solid #6bb36b;
+        border-radius: 25px;
+        transition: all 0.3s ease-in-out;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+        font-size: 15px;
+    }
+    nav a:hover {
+        background: #6bb36b;
+        color: #051a05;
+        transform: translateY(-2px);
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.4);
+    }
+
+    /* भाषा निवडक (Language Switcher) स्टाईल */
+    .language-switcher {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        z-index: 10;
+    }
+
+    .language-switcher select {
+        padding: 8px 12px;
+        border-radius: 5px;
+        border: 1px solid #4CAF50;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
+        font-size: 14px;
+        cursor: pointer;
+        outline: none;
+    }
+
+    .language-switcher select:focus {
+        border-color: #6bb36b;
+        box-shadow: 0 0 5px rgba(76, 175, 80, 0.5);
+    }
+
+    main {
+        max-width: 1100px;
+        margin: 30px auto;
+        background: rgba(0, 45, 0, 0.85);
+        padding: 30px 40px;
+        border-radius: 15px;
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+    section {
+        margin-bottom: 40px;
+    }
+    section h2 {
+        border-bottom: 2px solid #85e085;
+        padding-bottom: 10px;
+        margin-bottom: 20px;
+        font-size: 30px;
+        color: #b0ffb0;
+        text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+    }
+    /* गॅलरी */
+    .gallery {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+        gap: 15px;
+    }
+    .gallery img {
+        width: 100%;
+        height: 160px;
+        object-fit: cover;
+        border-radius: 10px;
+        cursor: pointer;
+        transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+        border: 3px solid #76b376;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.4);
+    }
+    .gallery img:hover {
+        transform: scale(1.05);
+        box-shadow: 0 8px 20px rgba(76, 175, 80, 0.8);
+    }
+
+    /* मोडल (Lightbox) स्टाईल */
+    .modal {
+        display: none;
+        position: fixed;
+        z-index: 1001;
+        padding-top: 50px;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto;
+        background-color: rgba(0,0,0,0.9);
+    }
+
+    .modal-content {
+        margin: auto;
+        display: block;
+        width: 90%;
+        max-width: 900px;
+        border-radius: 10px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.7);
+    }
+
+    /* मोडलसाठी कीफ्रेम ऍनिमेशन */
+    .modal-content#img01 {
+        animation: zoom 0.6s;
+    }
+
+    @keyframes zoom {
+        from {transform:scale(0)}
+        to {transform:scale(1)}
+    }
+
+    .close-button {
+        position: absolute;
+        top: 15px;
+        right: 35px;
+        color: #f1f1f1;
+        font-size: 40px;
+        font-weight: bold;
+        transition: 0.3s;
+        cursor: pointer;
+    }
+
+    .close-button:hover,
+    .close-button:focus {
+        color: #bbb;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    /* संपर्क */
+    .contact-info p, .contact-info a {
+        margin: 8px 0;
+        font-size: 16px;
+        color: #e0ffe0;
+    }
+    .contact-info a {
+        color: #a0f0a0;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    .contact-info a:hover {
+        text-decoration: underline;
+        color: #ceffce;
+    }
+
+    /* बुकिंग फॉर्म स्टाईल */
+    .booking-form {
+        background-color: rgba(16, 64, 16, 0.9);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+    }
+    .booking-form input, .booking-form textarea, .booking-form button {
+        width: calc(100% - 20px);
+        padding: 10px;
+        margin-top: 12px;
+        border-radius: 8px;
+        border: 1px solid #4CAF50;
+        font-size: 16px;
+        background-color: rgba(255, 255, 255, 0.9);
+        color: #333;
+    }
+    .booking-form textarea {
+        resize: vertical;
+    }
+    .booking-form button {
+        background: #4CAF50;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        border: none;
+        transition: background 0.3s ease, transform 0.2s ease;
+    }
+    .booking-form button:hover {
+        background: #3e8e41;
+        transform: translateY(-2px);
+    }
+    .booking-form a {
+        font-size: 16px;
+        margin-top: 12px;
+        display: block;
+        text-align: center;
+    }
+
+    /* अभिप्राय विभाग (Testimonials Section) स्टाईल */
+    #testimonials {
+        margin-top: 40px;
+    }
+
+    .testimonial-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 20px;
+    }
+
+    .testimonial-card {
+        background-color: rgba(16, 64, 16, 0.9);
+        padding: 20px;
+        border-radius: 12px;
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .testimonial-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .testimonial-card .quote {
+        font-size: 16px;
+        line-height: 1.5;
+        color: #e0ffe0;
+        margin-bottom: 12px;
+        font-style: italic;
+    }
+
+    .testimonial-card .customer-name {
+        font-weight: bold;
+        color: #c0ffc0;
+        margin-top: 8px;
+        font-size: 17px;
+    }
+
+    .testimonial-card .customer-location {
+        font-size: 13px;
+        color: #a0f0a0;
+        margin-top: 4px;
+    }
+
+    /* विक्रीसाठी झाडे (Plants for Sale Section) स्टाईल */
+    #plants-for-sale {
+        margin-top: 40px;
+    }
+
+    #plants-for-sale h3 {
+        color: #c0ffc0;
+        margin-top: 20px;
+        border-bottom: 1px solid #6bb36b;
+        padding-bottom: 8px;
+        font-size: 22px;
+    }
+
+    #plants-for-sale ul {
+        list-style: disc inside;
+        padding-left: 20px;
+        color: #e0ffe0;
+        font-size: 15px;
+    }
+
+    #plants-for-sale li {
+        margin-bottom: 8px;
+    }
+
+    .plant-catalog {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 20px;
+        margin-top: 25px;
+    }
+
+    .plant-item {
+        background-color: rgba(0, 70, 0, 0.8);
+        padding: 12px;
+        border-radius: 10px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .plant-item:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.5);
+    }
+
+    .plant-item img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        border: 2px solid #85e085;
+    }
+
+    .plant-item h4 {
+        color: #c0ffc0;
+        margin: 8px 0 5px;
+        font-size: 18px;
+    }
+
+    .plant-item p {
+        color: #e0ffe0;
+        font-size: 14px;
+        margin-bottom: 8px;
+    }
+
+    .plant-item .price {
+        font-size: 20px;
+        font-weight: bold;
+        color: #4CAF50;
+        margin-bottom: 12px;
+        display: block;
+    }
+
+    .plant-item button {
+        background: #4CAF50;
+        color: white;
+        border: none;
+        padding: 8px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s ease, transform 0.2s ease;
+        font-weight: bold;
+        font-size: 15px;
+    }
+
+    .plant-item button:hover {
+        background: #3e8e41;
+        transform: translateY(-2px);
+    }
+
+    /* नवीन गॅलरी सेक्शनसाठी स्टाईल (प्लास्टिक कुंड्या, चिनी मातीच्या कुंड्या, झाडे) */
+    .image-gallery {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 20px; /* Increased gap for better spacing */
+        justify-content: center; /* Center images within the gallery */
+        margin-bottom: 40px; /* Space between sections */
+    }
+
+    .image-item {
+        border: 1px solid #ddd;
+        padding: 15px; /* Increased padding */
+        background-color: rgba(0, 70, 0, 0.8); /* Background from main content */
+        box-shadow: 3px 3px 8px rgba(0,0,0,0.15); /* Enhanced shadow */
+        text-align: center;
+        border-radius: 8px; /* Rounded corners for image items */
+        transition: transform 0.2s ease, box-shadow 0.2s ease; /* Smooth hover effect */
+    }
+
+    .image-item:hover {
+        transform: translateY(-5px); /* Lift effect on hover */
+        box-shadow: 5px 5px 12px rgba(0,0,0,0.2);
+    }
+
+    .image-item img {
+        max-width: 250px; /* फोटोंची कमाल रुंदी */
+        height: auto; /* उंची आपोआप ॲडजस्ट होईल */
+        display: block;
+        margin: 0 auto;
+        border-radius: 4px; /* Slightly rounded corners for images */
+        border: 2px solid #85e085; /* Border for images */
+    }
+
+    .image-item p {
+        margin-top: 15px; /* Increased margin for image descriptions */
+        font-size: 1em; /* Slightly larger font size */
+        color: #e0ffe0; /* Changed text color for consistency */
+        font-weight: bold; /* Make description bold */
+    }
+
+
+    /* WhatsApp बटण */
+    .whatsapp-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #25d366;
+        border-radius: 50%;
+        width: 55px;
+        height: 55px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        box-shadow: 0 4px 10px rgba(37, 211, 102, 0.7);
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        z-index: 1000;
+    }
+    .whatsapp-button:hover {
+        transform: scale(1.1);
+        box-shadow: 0 6px 15px rgba(37, 211, 102, 0.9);
+    }
+    .whatsapp-button svg {
+        fill: white;
+        width: 30px;
+        height: 30px;
+    }
+
+    /* फुटर स्टाईल */
+    footer {
+        background: linear-gradient(to right, rgba(0, 30, 0, 0.9), rgba(0, 10, 0, 0.9));
+        color: #a0f0a0;
+        text-align: center;
+        padding: 15px;
+        margin-top: 30px;
+        font-size: 13px;
+        border-top: 1px solid #4CAF50;
+        box-shadow: 0 -3px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    /* रिस्पॉन्सिव्ह फिक्सेस */
+    @media (max-width: 768px) {
+        .logo-container h1 {
+            font-size: 24px;
+        }
+        .logo-container img {
+            width: 80px;
+        }
+        nav {
+            gap: 10px;
+            padding: 5px;
+        }
+        nav a {
+            padding: 8px 10px;
+            font-size: 13px;
+        }
+        main {
+            margin: 15px auto;
+            padding: 15px 20px;
+            border-radius: 10px;
+        }
+        section h2 {
+            font-size: 26px;
+        }
+        .gallery {
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 10px;
+        }
+        .gallery img {
+            height: 100px;
+        }
+        .whatsapp-button {
+            width: 45px;
+            height: 45px;
+            bottom: 15px;
+            right: 15px;
+        }
+        .whatsapp-button svg {
+            width: 24px;
+            height: 24px;
+        }
+        .booking-form input, .booking-form textarea, .booking-form button {
+            width: 100%;
+            font-size: 15px;
+        }
+        .testimonial-container {
+            grid-template-columns: 1fr;
+        }
+        .plant-catalog {
+            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+            gap: 15px;
+        }
+        .plant-item img {
+            height: 120px;
+        }
+        .plant-item h4 {
+            font-size: 16px;
+        }
+        .plant-item p, .plant-item .price {
+            font-size: 14px;
+        }
+        .plant-item button {
+            font-size: 14px;
+            padding: 7px 12px;
+        }
+        .modal-content {
+            width: 95%;
+        }
+        /* नवीन गॅलरी स्टाईलसाठी रिस्पॉन्सिव्ह */
+        .image-gallery {
+            gap: 15px;
+        }
+        .image-item {
+            padding: 10px;
+        }
+        .image-item img {
+            max-width: 100%; /* Make images responsive */
+        }
+    }
+
+    @media (max-width: 480px) {
+        .logo-container {
+            flex-direction: column;
+            text-align: center;
+            gap: 5px;
+        }
+        .logo-container img {
+            width: 60px;
+        }
+        .logo-container h1 {
+            font-size: 20px;
+        }
+        nav {
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            padding: 5px 0;
+        }
+        nav a {
+            width: 90%;
+            text-align: center;
+            padding: 6px 8px;
+            font-size: 12px;
+        }
+        main {
+            padding: 10px 15px;
+            margin: 10px auto;
+        }
+        section h2 {
+            font-size: 22px;
+            margin-bottom: 15px;
+        }
+        .gallery {
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 8px;
+        }
+        .gallery img {
+            height: 70px;
+        }
+        .contact-info p, .contact-info a {
+            font-size: 14px;
+        }
+        .booking-form input, .booking-form textarea, .booking-form button {
+            font-size: 14px;
+        }
+        .testimonial-card .quote {
+            font-size: 14px;
+        }
+        .plant-catalog {
+            grid-template-columns: 1fr;
+            gap: 15px;
+        }
+        .plant-item img {
+            height: 150px;
+        }
+        .plant-item h4 {
+            font-size: 18px;
+        }
+        .plant-item p, .plant-item .price {
+            font-size: 15px;
+        }
+        .plant-item button {
+            font-size: 14px;
+            padding: 7px 12px;
+        }
+        .whatsapp-button {
+            width: 40px;
+            height: 40px;
+            bottom: 10px;
+            right: 10px;
+        }
+        .whatsapp-button svg {
+            width: 20px;
+            height: 20px;
+        }
+        footer {
+            padding: 10px;
+            font-size: 12px;
+        }
+        .language-switcher {
+            top: 10px;
+            right: 10px;
+        }
+        .language-switcher select {
+            padding: 5px 8px;
+            font-size: 12px;
+        }
+    }
+</style>
+</head>
+<body>
+
+<header>
+    <div class="logo-container">
+        <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037912.png" alt="आर. के. गार्डन अँड डेव्हलपर्स लोगो" />
+        <h1>R.K. Garden And Developers</h1>
+    </div>
+    <div class="language-switcher">
+        <select onchange="window.location.href = this.value;">
+            <option value="index_mr.html" selected>मराठी</option>
+            <option value="index_en.html">English</option>
+            <option value="index_hi.html">हिंदी</option>
+            <option value="index_kn.html">ಕನ್ನಡ</option>
+            <option value="index_gu.html">ગુજરાતી</option>
+        </select>
+    </div>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#service">Service</a>
+        <a href="#plants-for-sale">झाडे विक्री</a>
+        <a href="#gallery">Gallery</a>
+        <a href="#testimonials">अभिप्राय</a>
+        <a href="#contact">Contact</a>
+        <a href="#booking">Booking</a>
+    </nav>
+</header>
+
+<main>
+    <section id="home">
+        <h2>स्वागत आहे!</h2>
+        <p>आर. के. गार्डन अँड डेव्हलपर्समध्ये आपले मनापासून स्वागत आहे. आम्ही सुंदर बागांची निर्मिती व देखभाल करण्यासाठी बांधिल आहोत. आम्ही फुलझाडे, फळझाडे, आयुर्वेदिक झाडे तसेच लँडस्केप डिझाईन व जलप्रपात निर्मिती सेवा पुरवतो.</p>
+    </section>
+
+    <section id="about">
+        <h2>अबाऊट</h2>
+        <p>आर. के. गार्डन अँड डेव्हलपर्स ही सोलापूरमधील एक विश्वासार्ह आणि अनुभवी सेवा आहे, जी बागांची निर्मिती, संगोपन आणि सजावट यामध्ये माहिर आहे. आम्ही फुलझाडे, फळझाडे, आयुर्वेदिक औषधी वनस्पती, लॉन डेव्हलपमेंट, नैसर्गिक झरे आणि आकर्षक वॉटरफॉल डिझाईनसह विविध प्रकारच्या बाग सेवा प्रदान करतो.
+        आमचे ध्येय म्हणजे निसर्गाच्या सान्निध्यात सौंदर्य निर्माण करणे आणि प्रत्येक ग्राहकाचे स्वप्नातले गार्डन साकार करणे.</p>
+    </section>
+
+    <section id="service">
+        <h2>सर्विस</h2>
+        <p>आर. के. गार्डन अँड डेव्हलपर्स मध्ये आम्ही खालील उत्कृष्ट बाग सेवा पुरवतो:</p>
+        <ul style="list-style:none; padding-left:0; font-size:16px; line-height:1.8;">
+            <li>🌸 फुलझाडे विक्री व लागवड<br>विविध रंगांची व प्रकारांची फुलझाडे जी तुमच्या बागेला आकर्षक बनवतात.</li>
+            <li>🍋 फळझाडे विक्री व लागवड<br>आंबा, चिकू, सिताफळ, पेरू, संत्रा यासारखी बहुपयोगी फळझाडे.</li>
+            <li>🌿 आयुर्वेदिक व औषधी वनस्पती<br>तुळस, गुळवेल, आंबा हलद, अश्वगंधा इत्यादी आरोग्यदायी झाडे.</li>
+            <li>🪻 गार्डन डेव्हलपमेंट व प्लानिंग<br>नवीन बागांची संकल्पना, रचना व सौंदर्यवृद्धीसाठी विशेष मार्गदर्शन.</li>
+            <li>⛲ वॉटरफॉल आणि फाउंटन डिझाईन<br>नैसर्गिक झरे, कृत्रिम धबधबे व आकर्षक फाउंटन तयार करणे.</li>
+            <li>🌱 लॉन कटिंग व मेंटेनन्स सेवा<br>नियमित गवत कापणी, खत टाकणे, कीटकनाशक फवारणी आणि झाडांची निगा राखणे.</li>
+            <li>🌳 झाडांची फॉर्म कटिंग व सजावट<br>बागेला आकर्षक लुक देण्यासाठी झाडांची कलात्मक कापणी.</li>
+            <li>🪴 पॉट वर्क व टेरेस गार्डन डिझाईन<br>कुंड्यांची सजावट, टेरेस गार्डनचे नियोजन व अंमलबजावणी.</li>
+            <li>🛠️ जुनी बाग दुरुस्ती व देखभाल<br>आधीपासून असलेल्या बागांचे पुनर्निर्माण व सुधारणा.</li>
+            <li>🌼 खासगी, व्यावसायिक आणि औद्योगिक गार्डन प्रोजेक्ट्स<br>ग्राहकाच्या गरजेनुसार सानुकूल सेवा.</li>
+        </ul>
+        <p>आमचा उद्देश – आपल्या घराजवळ एक सुंदर, हरित आणि शांतीदायक वातावरण निर्माण करणे!</p>
+    </section>
+
+    <section id="plants-for-sale">
+        <h2>विक्रीसाठी उपलब्ध फुले आणि वनस्पती</h2>
+        <p>आमच्याकडे विविध प्रकारची ताजी आणि आरोग्यदायी फुले आणि वनस्पती उपलब्ध आहेत. तुमच्या घरासाठी किंवा बागेसाठी योग्य पर्याय निवडण्यासाठी आजच संपर्क करा!</p>
+
+        <div class="plant-catalog">
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037945.jpg" alt="हिरवीगार वनस्पती">
+                <h4>सुंदर शोभेची वनस्पती</h4>
+                <p>तुमच्या घराला किंवा बागेला नैसर्गिक सौंदर्य देणारी.</p>
+                <span class="price">₹ 150</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037946.jpg" alt="इनडोअर प्लांट">
+                <h4>घरातील सजावटीसाठी</h4>
+                <p>घरातील वातावरणात ताजेपणा आणण्यासाठी आदर्श.</p>
+                <span class="price">₹ 200</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037947.jpg" alt="फुलांचे रोप">
+                <h4>रंगीत फुलांचे रोप</h4>
+                <p>तुमच्या बागेत किंवा बालकनीमध्ये रंग भरण्यासाठी.</p>
+                <span class="price">₹ 250</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037948.jpg" alt="मोठे रोपटे">
+                <h4>मोठे बागेचे रोप</h4>
+                <p>मोठ्या बागेसाठी किंवा प्रवेशद्वारासाठी उत्तम पर्याय.</p>
+                <span class="price">₹ 300</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037949.jpg" alt="पॉटमधील वनस्पती">
+                <h4>कुंड्यामधील सुंदर वनस्पती</h4>
+                <p>छोट्या जागांसाठी किंवा घराच्या सजावटीसाठी.</p>
+                <span class="price">₹ 180</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037950.jpg" alt="छोटी फुलझाडे">
+                <h4>लहान फुलझाडे</h4>
+                <p>टेबल किंवा खिडकीच्या कडेला ठेवण्यासाठी योग्य.</p>
+                <span class="price">₹ 350</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037951.jpg" alt="हिरवी झुडपे">
+                <h4>दाट हिरवी झुडपे</h4>
+                <p>बागेला भरदार लुक देण्यासाठी उत्तम पर्याय.</p>
+                <span class="price">₹ 220</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037952.jpg" alt="आकर्षक फुलझाड">
+                <h4>आकर्षक फुलांची रोपे</h4>
+                <p>तुमच्या बागेचे मुख्य आकर्षण बनवण्यासाठी.</p>
+                <span class="price">₹ 280</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037953.jpg" alt="विशिष्ट वनस्पती">
+                <h4>दुर्मीळ वनस्पती</h4>
+                <p>तुमच्या बागेसाठी एक विशेष आणि वेगळा अनुभव.</p>
+                <span class="price">₹ 170</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037954.jpg" alt="गुलाबी फुले">
+                <h4>गुलाबी फुलांचे सौंदर्य</h4>
+                <p>गुलाबी रंगाची मोहक फुले जी तुमच्या बागेत गोडवा आणतील.</p>
+                <span class="price">₹ 270</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037955.jpg" alt="सुगंधी फुले">
+                <h4>सुगंधी फुलझाडे</h4>
+                <p>तुमच्या बागेला एक सुखद सुगंध देणारी.</p>
+                <span class="price">₹ 230</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037956.jpg" alt="विविध रंगी फुले">
+                <h4>विविध रंगी फुलझाडे</h4>
+                <p>अनेक रंगांच्या फुलांनी तुमची बाग सजवा.</p>
+                <span class="price">₹ 290</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+            <div class="plant-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43m95jkex/1000037957.jpg" alt="मोठी हिरवी वनस्पती">
+                <h4>आकर्षक हिरवी वनस्पती</h4>
+                <p>मोठ्या आणि मोकळ्या जागांसाठी उपयुक्त.</p>
+                <span class="price">₹ 320</span>
+                <button onclick="location.href='#contact'">आता खरेदी करा</button>
+            </div>
+
+        </div>
+
+        <p style="text-align: center; margin-top: 30px;">आमच्या नर्सरीला भेट देण्यासाठी किंवा अधिक माहितीसाठी, कृपया <a href="#contact" style="color:#a3f5a3; text-decoration:underline;">संपर्क करा</a>.</p>
+    </section>
+
+    <section id="gallery">
+        <h2>गॅलरी</h2>
+
+        <div class="gallery">
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43k48kfgx/1000032670.jpg" alt="हिरवीगार बाग आणि फुले" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43k48kfgx/1000032670.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43k48kfgx/1000032616.jpg" alt="सुंदर लँडस्केप डिझाइन" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43k48kfgx/1000032616.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43k48kfgx/1000032419.jpg" alt="बागकामाचे नमुने" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43k48kfgx/1000032419.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000032418.jpg" alt="सजावटीच्या वनस्पती" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000032418.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027981.jpg" alt="फाउंटन आणि वॉटरफॉल डिझाइन" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027981.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027928.jpg" alt="लॉन डेव्हलपमेंट" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027928.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027924.jpg" alt="पॉटेड प्लांट्स" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027924.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027992.jpg" alt="टेरेस गार्डन" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027992.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027991.jpg" alt="बाग प्रकल्पाची प्रतिमा" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43k4ykt23/1000027991.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43kcjh48q/1000033429.jpg" alt="नवीन बाग तयार करणे" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43kcjh48q/1000033429.jpg')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43kctxzak/1000033007.webp" alt="औषधी वनस्पतींची लागवड" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43kctxzak/1000033007.webp')" />
+            <img src="https://assets.onecompiler.app/43jvtc4uw/43kcjh48q/1000032674.jpg" alt="फुलांची बाग" onclick="openModal('https://assets.onecompiler.app/43jvtc4uw/43kcjh48q/1000032674.jpg')" />
+        </div>
+
+        <h2 style="margin-top: 40px;">माझे कुंड्या आणि झाडांचे कलेक्शन</h2>
+
+        <h3>प्लास्टिक कुंड्या</h3>
+        <div class="image-gallery">
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038399.jpg" alt="प्लास्टिक कुंडी १">
+                <p>प्लास्टिक कुंडी १</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038400.webp" alt="प्लास्टिक कुंडी २">
+                <p>प्लास्टिक कुंडी २</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038401.jpg" alt="प्लास्टिक कुंडी ३">
+                <p>प्लास्टिक कुंडी ३</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038403.jpg" alt="प्लास्टिक कुंडी ४">
+                <p>प्लास्टिक कुंडी ४</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039322.jpg" alt="प्लास्टिक कुंडी ५">
+                <p>प्लास्टिक कुंडी ५</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039320.jpg" alt="प्लास्टिक कुंडी ६">
+                <p>प्लास्टिक कुंडी ६</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039286.jpg" alt="प्लास्टिक कुंडी ७">
+                <p>प्लास्टिक कुंडी ७</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039321.jpg" alt="प्लास्टिक कुंडी ८">
+                <p>प्लास्टिक कुंडी ८</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039290.jpg" alt="प्लास्टिक कुंडी ९">
+                <p>प्लास्टिक कुंडी ९</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039289.jpg" alt="प्लास्टिक कुंडी १०">
+                <p>प्लास्टिक कुंडी १०</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039318.jpg" alt="प्लास्टिक कुंडी ११">
+                <p>प्लास्टिक कुंडी ११</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039288.jpg" alt="प्लास्टिक कुंडी १२">
+                <p>प्लास्टिक कुंडी १२</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039314.jpg" alt="प्लास्टिक कुंडी १३">
+                <p>प्लास्टिक कुंडी १३</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039311.jpg" alt="प्लास्टिक कुंडी १४">
+                <p>प्लास्टिक कुंडी १४</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039315.jpg" alt="प्लास्टिक कुंडी १५">
+                <p>प्लास्टिक कुंडी १५</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039294.jpg" alt="प्लास्टिक कुंडी १६">
+                <p>प्लास्टिक कुंडी १६</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039313.jpg" alt="प्लास्टिक कुंडी १७">
+                <p>प्लास्टिक कुंडी १७</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039316.jpg" alt="प्लास्टिक कुंडी १८">
+                <p>प्लास्टिक कुंडी १८</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039310.jpg" alt="प्लास्टिक कुंडी १९">
+                <p>प्लास्टिक कुंडी १९</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039306.jpg" alt="प्लास्टिक कुंडी २०">
+                <p>प्लास्टिक कुंडी २०</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039296.jpg" alt="प्लास्टिक कुंडी २१">
+                <p>प्लास्टिक कुंडी २१</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039312.jpg" alt="प्लास्टिक कुंडी २२">
+                <p>प्लास्टिक कुंडी २२</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039295.jpg" alt="प्लास्टिक कुंडी २३">
+                <p>प्लास्टिक कुंडी २३</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039297.jpg" alt="प्लास्टिक कुंडी २४">
+                <p>प्लास्टिक कुंडी २४</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039319.jpg" alt="प्लास्टिक कुंडी २५">
+                <p>प्लास्टिक कुंडी २५</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039287.jpg" alt="प्लास्टिक कुंडी २६">
+                <p>प्लास्टिक कुंडी २६</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039292.jpg" alt="प्लास्टिक कुंडी २७">
+                <p>प्लास्टिक कुंडी २७</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038423.jpg" alt="प्लास्टिक कुंडी २८">
+                <p>प्लास्टिक कुंडी २८</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038407.webp" alt="प्लास्टिक कुंडी २९">
+                <p>प्लास्टिक कुंडी २९</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038409.jpg" alt="प्लास्टिक कुंडी ३०">
+                <p>प्लास्टिक कुंडी ३०</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038406.jpg" alt="प्लास्टिक कुंडी ३१">
+                <p>प्लास्टिक कुंडी ३१</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038408.jpg" alt="प्लास्टिक कुंडी ३२">
+                <p>प्लास्टिक कुंडी ३२</p>
+            </div>
+        </div>
+
+        <h3>चिनी मातीच्या कुंड्या</h3>
+        <div class="image-gallery">
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039325.jpg" alt="चिनी माती कुंडी १">
+                <p>चिनी माती कुंडी १</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mecdfxc/1000038424.jpg" alt="चिनी माती कुंडी २">
+                <p>चिनी माती कुंडी २</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039324.jpg" alt="चिनी माती कुंडी ३">
+                <p>चिनी माती कुंडी ३</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039326.jpg" alt="चिनी माती कुंडी ४">
+                <p>चिनी माती कुंडी ४</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039323.jpg" alt="चिनी माती कुंडी ५">
+                <p>चिनी माती कुंडी ५</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039272.jpg" alt="चिनी माती कुंडी ६">
+                <p>चिनी माती कुंडी ६</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039273.jpg" alt="चिनी माती कुंडी ७">
+                <p>चिनी माती कुंडी ७</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039258.jpg" alt="चिनी माती कुंडी ८">
+                <p>चिनी माती कुंडी ८</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039259.jpg" alt="चिनी माती कुंडी ९">
+                <p>चिनी माती कुंडी ९</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039254.jpg" alt="चिनी माती कुंडी १०">
+                <p>चिनी माती कुंडी १०</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039260.jpg" alt="चिनी माती कुंडी ११">
+                <p>चिनी माती कुंडी ११</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039274.jpg" alt="चिनी माती कुंडी १२">
+                <p>चिनी माती कुंडी १२</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039270.jpg" alt="चिनी माती कुंडी १३">
+                <p>चिनी माती कुंडी १३</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039267.jpg" alt="चिनी माती कुंडी १४">
+                <p>चिनी माती कुंडी १४</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039257.jpg" alt="चिनी माती कुंडी १५">
+                <p>चिनी माती कुंडी १५</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039262.jpg" alt="चिनी माती कुंडी १६">
+                <p>चिनी माती कुंडी १६</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039266.jpg" alt="चिनी माती कुंडी १७">
+                <p>चिनी माती कुंडी १७</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039265.jpg" alt="चिनी माती कुंडी १८">
+                <p>चिनी माती कुंडी १८</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039263.jpg" alt="चिनी माती कुंडी १९">
+                <p>चिनी माती कुंडी १९</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039269.jpg" alt="चिनी माती कुंडी २०">
+                <p>चिनी माती कुंडी २०</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039258.jpg" alt="चिनी माती कुंडी २१">
+                <p>चिनी माती कुंडी २१</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039261.jpg" alt="चिनी माती कुंडी २२">
+                <p>चिनी माती कुंडी २२</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039256.jpg" alt="चिनी माती कुंडी २३">
+                <p>चिनी माती कुंडी २३</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039255.jpg" alt="चिनी माती कुंडी २४">
+                <p>चिनी माती कुंडी २४</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039264.jpg" alt="चिनी माती कुंडी २५">
+                <p>चिनी माती कुंडी २५</p>
+            </div>
+        </div>
+
+        <h3>झाडे</h3>
+        <div class="image-gallery">
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039235.jpg" alt="झाड १">
+                <p>झाड १</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039234.jpg" alt="झाड २">
+                <p>झाड २</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039240.jpg" alt="झाड ३">
+                <p>झाड ३</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039244.jpg" alt="झाड ४">
+                <p>झाड ४</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039245.jpg" alt="झाड ५">
+                <p>झाड ५</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039241.jpg" alt="झाड ६">
+                <p>झाड ६</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039112.jpg" alt="झाड ७">
+                <p>झाड ७</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039231.jpg" alt="झाड ८">
+                <p>झाड ८</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039250.jpg" alt="झाड ९">
+                <p>झाड ९</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039114.jpg" alt="झाड १०">
+                <p>झाड १०</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039237.jpg" alt="झाड ११">
+                <p>झाड ११</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039238.jpg" alt="झाड १२">
+                <p>झाड १२</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039226.jpg" alt="झाड १३">
+                <p>झाड १३</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039227.jpg" alt="झाड १४">
+                <p>झाड १४</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039215.jpg" alt="झाड १५">
+                <p>झाड १५</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039243.jpg" alt="झाड १६">
+                <p>झाड १६</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039233.jpg" alt="झाड १७">
+                <p>झाड १७</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039217.jpg" alt="झाड १८">
+                <p>झाड १८</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039097.jpg" alt="झाड १९">
+                <p>झाड १९</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039239.jpg" alt="झाड २०">
+                <p>झाड २०</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039228.jpg" alt="झाड २१">
+                <p>झाड २१</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039224.jpg" alt="झाड २२">
+                <p>झाड २२</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039225.jpg" alt="झाड २३">
+                <p>झाड २३</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039242.jpg" alt="झाड २४">
+                <p>झाड २४</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039228.jpg" alt="झाड २५">
+                <p>झाड २५</p>
+            </div>
+            <div class="image-item">
+                <img src="https://assets.onecompiler.app/43jvtc4uw/43mjxjtj3/1000039213.jpg" alt="झाड २६">
+                <p>झाड २६</p>
+            </div>
+        </div>
+    </section>
+
+
+    <section id="testimonials">
+        <h2>आमच्या समाधानी ग्राहकांचे अभिप्राय</h2>
+        <div class="testimonial-container">
+            <div class="testimonial-card">
+                <p class="quote">"आर. के. गार्डन अँड डेव्हलपर्सने माझ्या बागेला एक नवीन रूप दिले. त्यांचे काम अत्यंत व्यावसायिक आणि उत्कृष्ट आहे. मी त्यांच्या सेवेने खूप समाधानी आहे!"</p>
+                <p class="customer-name">- प्रकाश कुलकर्णी</p>
+                <p class="customer-location">सोलापूर</p>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="quote">"माझ्या ऑफिसच्या आवारासाठी लॉन डेव्हलपमेंटचे काम त्यांनी खूप कमी वेळात आणि बजेटमध्ये करून दिले. त्यांच्या टीमचे काम खूपच कौतुकास्पद आहे."</p>
+                <p class="customer-name">- सुनीता देशमुख</p>
+                <p class="customer-location">पुणे</p>
+            </div>
+
+            <div class="testimonial-card">
+                <p class="quote">"मला माझ्या टेरेस गार्डनसाठी काही खास वनस्पती हव्या होत्या, आणि आर. के. गार्डन अँड डेव्हलपर्सने मला उत्तम मार्गदर्शन केले आणि आवश्यक सर्व गोष्टी पुरवल्या. अत्यंत शिफारसीय!"</p>
+                <p class="customer-name">- आनंद पाटील</p>
+                <p class="customer-location">मुंबई</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="contact">
+        <h2>📞 संपर्क करा</h2>
+        <div class="contact-info">
+            <p>आर. के. गार्डन अँड डेव्हलपर्स शी खालील माध्यमांद्वारे संपर्क साधा आणि तुमची स्वप्नातील बाग साकार करण्यासाठी आजच पहिला पाऊल उचला.</p>
+            <p>🏢 पत्ता: करकंब तालुका पंढरपूर जिल्हा सोलापूर, महाराष्ट्र – 413302</p>
+            <p>📱 संपर्क क्रमांक:</p>
+            <p>📞 <a href="tel:9011369373">9011369373</a></p>
+            <p>📞 <a href="tel:9767809168">9767809168</a></p>
+            <p>📧 ईमेल: <a href="mailto:rajendarkhare9011@gmail.com">rajendarkhare9011@gmail.com</a></p>
+        </div>
+    </section>
+
+    <section id="booking">
+        <h2>🌿 बुकिंग करा</h2>
+        <p>तुमच्या गार्डन प्रोजेक्टसाठी आजच आमच्याशी संपर्क करा! फॉर्म भरल्यानंतर आम्ही लवकरच संपर्क करू.</p>
+        <div class="booking-form">
+            <form action="https://formspree.io/f/xoqgzqdk" method="POST">
+                <input type="text" name="name" placeholder="तुमचं पूर्ण नाव" required>
+                <input type="tel" name="phone" placeholder="मोबाईल नंबर" required>
+                <input type="email" name="email" placeholder="ईमेल पत्ता" required>
+                <textarea name="message" placeholder="तुमचा संदेश..." rows="4" required></textarea>
+                <button type="submit">बुकिंग सबमिट करा</button>
+            </form>
+            <br>
+            <a href="https://wa.me/9011369373" style="color:#a3f5a3; text-decoration:underline;" target="_blank">📱 किंवा WhatsApp वर बुकिंग करा</a>
+        </div>
+    </section>
+
+</main>
+
+<div id="myModal" class="modal">
+    <span class="close-button" onclick="closeModal()">&times;</span>
+    <img class="modal-content" id="img01">
+</div>
+
+<footer>
+    <p>&copy; 2024 आर. के. गार्डन अँड डेव्हलपर्स. सर्व हक्क राखीव.</p>
+    <p>पत्ता: करकंब तालुका पंढरपूर जिल्हा सोलापूर, महाराष्ट्र – 413302</p>
+</footer>
+
+<a href="https://wa.me/9011369373" target="_blank" class="whatsapp-button" aria-label="WhatsApp">
+    <svg viewBox="0 0 24 24"><path d="M20.52 3.48A11.903 11.903 0 0012 0C5.372 0 0 5.372 0 12c0 2.12.555 4.08 1.517 5.79L0 24l6.262-1.647a11.941 11.941 0 005.736 1.523c6.627 0 12-5.373 12-12 0-3.2-1.25-6.196-3.48-8.396zm-8.98 17.97a9.57 9.57 0 01-4.872-1.367l-.35-.21-3.72.98.99-3.62-.23-.37a9.615 9.615 0 011.47-13.26 9.616 9.616 0 0113.38 1.85 9.615 9.615 0 01-8.6 15.64zM17.1 15.16c-.26-.13-1.55-.77-1.8-.85-.25-.08-.44-.13-.63.13-.18.26-.7.85-.85 1.02-.16.18-.32.2-.6.07a6.99 6.99 0 01-2.07-1.28 7.43 7.43 0 01-1.37-1.7c-.14-.23-.02-.35.13-.47.13-.13.3-.32.45-.48.15-.15.2-.26.3-.43.1-.17.05-.32-.02-.45-.07-.13-.63-1.53-.87-2.11-.23-.56-.47-.48-.64-.49l-.55-.01c-.18 0-.46.07-.7.32-.24.25-.94.92-.94 2.25 0 1.32.96 2.6 1.1 2.78.14.17 1.9 2.9 4.6 4.07a15.76 15.76 0 002.6 1.1c1.08.43 1.92.37 2.64.23.8-.17 2.46-1 2.81-1.97.35-.97.35-1.8.25-1.97-.1-.17-.25-.27-.52-.4z"/></svg>
+</a>
+
+<script>
+// गॅलरी मोडल (Lightbox) जावास्क्रिप्ट
+function openModal(imgUrl) {
+    var modal = document.getElementById("myModal");
+    var modalImg = document.getElementById("img01");
+    modal.style.display = "block";
+    modalImg.src = imgUrl;
+}
+
+function closeModal() {
+    var modal = document.getElementById("myModal");
+    modal.style.display = "none";
+}
+</script>
+
+</body>
+</html>
